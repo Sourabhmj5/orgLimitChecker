@@ -1,0 +1,61 @@
+<aura:component implements="flexipage:availableForAllPageTypes" controller="OrgLimitsCtrl">
+ 
+    <!-- Attributes -->
+    <aura:attribute name="orgLimitInfo" type="List"/>
+    <aura:attribute name="lastRefreshedDate" type="DateTime" />
+    <aura:attribute name="timeZone" type="String" />
+    <!-- Event Handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+ 
+    <lightning:card title="Org Limits" iconName="standard:work_capacity_limit">
+        <aura:set attribute="actions">
+            As of
+            <lightning:formattedDateTime value="{!v.lastRefreshedDate}"
+                                         month="numeric"
+                                         day="numeric" hour="2-digit"
+                                         minute="2-digit" timeZone="{!v.timeZone}"
+                                         hour12="true"/>
+            <button name="Refresh" class="slds-button">
+                <span data-value="Refresh" onclick="{!c.doInit}">
+                    <lightning:icon iconName="action:refresh" size="xx-small"/>
+                </span>
+            </button>
+        </aura:set>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Limit Name">Limit Name</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Used">Used</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Available">Available</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.orgLimitInfo}" var="item">
+                    <tr class="slds-hint-parent">
+                        <td data-label="Limit Name">
+                            <div class="slds-truncate" title="{!item.limitName}">
+                                {!item.limitName}
+                            </div>
+                        </td>
+                        <td data-label="Limit Name">
+                            <div class="slds-truncate" title="{!item.usedLimit}">
+                                {!item.usedLimit}
+                            </div>
+                        </td>
+                        <td data-label="Limit Name">
+                            <div class="slds-truncate" title="{!item.maxLimit}">
+                                {!item.maxLimit}
+                            </div>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </lightning:card>
+</aura:component>
